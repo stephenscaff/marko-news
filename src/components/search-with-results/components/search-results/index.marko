@@ -1,0 +1,199 @@
+import axios from 'axios'
+
+class {
+  onCreate() {
+    this.state = {
+      data: [],
+      time: 0,
+      count: 0,
+      isSearching: false
+    }
+
+    // Create you key at https://newsapi.org/
+    this.API_KEY = "xxxxxxxxxxxxxxxxx"
+  }
+
+  onInput(input) {
+    this.state.isSearching = true
+
+    if (input.term && input.term.length) {
+      this.getArticles(input.term)
+    }
+  }
+
+  /**
+   * Should use marko's getEl for this honestly.
+   * @param {HTML Element}
+   */
+  getHeight(element) {
+    return document.querySelector(element).clientHeight
+  }
+
+  /**
+   * GetArticles
+   * Makes request to News api with query term.
+   * Also handles isSearching state
+   * @param {String} query - search term
+   */
+  getArticles(query) {
+    if (query) {
+      axios
+        .get("https://newsapi.org/v2/everything", {
+          params: {
+            q: query,
+            apiKey: this.API_KEY
+          }
+        })
+        .then(response => {
+          if (response.data.articles != 0) {
+            this.state = {
+              data: response.data.articles,
+              count: response.data.totalResults,
+              isSearching: false
+            }
+            // Scroll to top with sticky offset,
+            // if already down the page
+            if (typeof window !== "undefined")
+              if (window.scrollY > 120)
+                window.scrollTo({
+                  top: 0,
+                  left: 0,
+                  behavior: 'smooth'
+                })
+            }
+        })
+        .catch(error => {
+          console.log("error", error)
+        });
+    }
+  }
+}
+
+<section class=["articles is-results", state.isSearching ? "is-searching" : "has-searched"]>
+  <div.grid-lg>
+    <header.articles__header>
+      <p>
+        Showing <strong>${state.count}</strong> articles related to <strong>${input.term}</strong>
+      </p>
+    </header>
+    <div.articles__grid>
+      <for(article in state.data)>
+        <article.article>
+          <a.article__link href=`${article.url}` target="_blank">
+            <figure.article__figure>
+              <div.article__img-bg
+                style=`background-image: url(${article.urlToImage})`/>
+            </figure>
+            <header.article__header>
+              <h4.article__title>
+                <span.article__source>${article.source.name}</span>
+                <span.article__headline>${article.title}</span>
+              </h4>
+              <div.article__creds>
+                <span.article__creds-source>${article.source.name}</span>
+                <span.article__creds-dash>—</span>
+                <span.article__creds-author>${article.author}</span>
+              </div>
+            </header>
+          </a>
+        </article>
+      </for>
+    </div>
+  </div>
+</section>
+
+// Styles
+style.less {
+  .articles {
+    position: relative;
+    padding: @pad-sm 0 @pad-lg;
+
+    &__header {
+      padding: 0 0 @pad-sm;
+      @media (min-width: @mq-med) {
+        padding: @pad-sm 0;
+      }
+    }
+
+    &__grid {
+      .flex-row(@col-pad: 1.5em);
+      justify-content: space-between;
+    }
+
+    article:nth-of-type(1),
+    article:nth-of-type(2) {
+      .flex-col(@xs:100%, @med:50%);
+    }
+  }
+
+
+  // Single Article
+  .article {
+    position: relative;
+    padding-bottom: @pad;
+    flex-grow: 1;
+
+    .articles.has-searched & {
+      opacity: 1;
+      animation: fade-in 1s ease both;
+
+      // animation delay on has-searched articles
+      .ani-delay(10);
+    }
+
+    &__link {
+      position: relative;
+    }
+
+    &__figure {
+      position: relative;
+      height: 24em;
+      margin-bottom: @pad-xs;
+      background-color: @color-grey-light;
+      .box_shadow_hover();
+    }
+
+    &__img-bg {
+      .bg-img-abs();
+    }
+
+    &__title {
+      font-family: @font-paragraph;
+      font-weight: 400;
+      font-size: 1em;
+    }
+
+    &__source {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.75em;
+    }
+
+    &__headline {
+      display: block;
+      max-width: 30em;
+    }
+
+    &__creds {
+      margin-top: @pad-sm;
+      font-family: @font-mono;
+      font-size: 0.75em;
+      color: #999;
+      transition: color 0.5s ease;
+
+      .article:hover & {
+        color: @color-alpha;
+      }
+
+      &-source {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      &-dash {
+        display: inline-block;
+        padding: 0 0.5em;
+      }
+    }
+  }
+}

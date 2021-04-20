@@ -1,0 +1,26 @@
+//----------------------------------------------
+// Typography
+//----------------------------------------------
+body {
+  font-family: @font-paragraph;
+  line-height: @base-lineheight;
+  color: @color-grey-mid;
+  background-color: #fff;
+}
+
+//----------------------------------------------
+// Fluid body sizing
+//----------------------------------------------
+body {
+  font-size: 102%;
+
+  @media (min-width: @mq-med) {
+    font-size: calc(0.1vw + 90%);
+  }
+  @media (min-width: @mq-xl) {
+    font-size: calc(0.2vw + 100%);
+  }
+  @media (min-width: @mq-xxl) {
+    font-size: calc(0.1vw + 100%);
+  }
+}

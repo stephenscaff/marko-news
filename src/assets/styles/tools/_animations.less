@@ -1,0 +1,11 @@
+//----------------------------------------------
+//  ani-delay()
+//  Animation Delay on nth-childs
+//  This is easier in less. Can't get time param to work.
+//----------------------------------------------
+.ani-delay(@n, @i: 1) when (@i =< @n) {
+  &:nth-child(@{i}) {
+    animation-delay: ( @i * 0.1s);
+  }
+  .ani-delay(@n, (@i + 1));
+}

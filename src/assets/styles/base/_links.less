@@ -1,0 +1,14 @@
+.links(@color, @color-hover) {
+  color: @color;
+  transition: color 0.4s ease;
+
+
+  &:hover {
+    color: @color-hover;
+  }
+}
+
+
+a {
+  .links(@color-alpha, lighten(@color-beta, 5))
+}

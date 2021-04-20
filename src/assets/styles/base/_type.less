@@ -1,0 +1,87 @@
+//----------------------------------------------
+//  Font RWD
+//  Change font-size across breaks
+//  @param: @font_sm  - at small
+//  @param: @font_med - at med break
+//  @param: @font_lg  - at Large break
+//  @param: @font_xl  - at Xlarge break
+//----------------------------------------------
+.font-rwd(
+  @sm: ~'';
+  @med: ~'';
+  @lg: ~'';
+  @xl: ~'';
+  @xxl: ~'';
+  ) {
+  font-size: @sm;
+
+  & when not (@med = ~'') {
+    @media(min-width: @mq-med){
+      font-size: @med;
+    }
+  }
+
+  & when not (@lg = ~'') {
+    @media(min-width: @mq-lg){
+      font-size: @lg;
+    }
+  }
+
+  & when not (@xl = ~'') {
+    @media(min-width: @mq-xl){
+      font-size: @xl;
+    }
+  }
+
+  & when not (@xxl = ~'') {
+    @media(min-width: @mq-xxl){
+      font-size: @xxl;
+    }
+  }
+}
+
+body {
+  font-family: @font-paragraph;
+}
+
+//----------------------------------------------
+//  Typography : Headings Setup
+//----------------------------------------------
+h1,h2,h3,h4,h5{
+  font-family: @font-header;
+  font-weight: 500;
+  color: @color-grey-dark;
+}
+
+//----------------------------------------------
+//  Headings
+//----------------------------------------------
+.font-xxl, h1 {
+  margin-bottom: @pad-xxs;
+  line-height: 1.35;
+  .font-rwd(@sm:@font-xxl, @med:@font-xxxl)
+}
+
+.font-xl, h2 {
+  margin-bottom: @pad-xxs;
+  line-height: 1.35;
+  .font-rwd(@sm:@font-xl, @med:@font-xxl)
+}
+
+.font-lg, h3 {
+  margin-bottom: @pad-xxs;
+  line-height: 1.4;
+  .font-rwd(@sm:@font-lg, @med:@font-xl)
+}
+
+.font-med, h4 {
+  margin-bottom: @pad-xxs;
+  line-height: 1.45;
+  .font-rwd(@sm:@font-med)
+}
+
+.font-base, h5 {
+  margin-bottom: @pad-xxs;
+  line-height: 1.35;
+  .font-rwd(@sm:@font-base)
+}

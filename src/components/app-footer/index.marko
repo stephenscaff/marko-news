@@ -1,0 +1,38 @@
+class {
+  onCreate() {
+    this.state = {
+      date: new Date().getFullYear()
+    };
+  }
+}
+
+<footer.app-footer>
+  <div.grid-lg>
+    <div.app-footer__grid>
+      <a.app-footer__brand href="/">MarkoNews</a>
+      <br/>
+      <span.app-footer__copy>©${state.date} MarkyMarko</span>
+    </div>
+  </div>
+</footer>
+
+// Styles
+style.less {
+  .app-footer {
+    position: relative;
+    padding: @pad-lg 0;
+
+    &__grid {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__copy {
+      font-family: @font-mono;
+      font-size: @font-xs;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: @color-grey;
+    }
+  }
+}

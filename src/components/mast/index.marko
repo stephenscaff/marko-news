@@ -1,0 +1,30 @@
+<section class="mast">
+  <div class="grid-lg">
+    <header class="mast__header">
+      <h1 class="mast__title">
+        <${input.title}/>
+      </h1>
+    </header>
+  </div>
+</section>
+
+style.less {
+  .mast {
+    position: relative;
+    padding: @pad 0 @pad-xs;
+
+    @media (min-width: @mq-med) {
+      padding: @pad-lg 0 @pad-xs;
+    }
+
+    &__title {
+      margin-bottom: 0;
+
+      br {
+        @media (max-width: @mq-sm) {
+          display:none;
+        }
+      }
+    }
+  }
+}

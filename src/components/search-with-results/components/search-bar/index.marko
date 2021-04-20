@@ -1,0 +1,94 @@
+class {
+  onCreate() {
+    this.state = {
+      term: "eBay",
+      timer: null
+    };
+  }
+
+  // @todo - add legit debouncer?
+  setTerm(event) {
+    clearTimeout(this.state.timer);
+    this.state.term = event.target.value;
+    this.state.timer = setTimeout(
+      () => this.emit("search", event.target.value),
+      400
+    );
+  }
+}
+
+// View
+<section.search-bar>
+  <div.grid-lg>
+    <div.search-bar__main>
+      <span.search-bar__prefix>
+        <i.search-bar__icon>👀</i>
+      </span>
+      <input.search-bar__input
+        value=state.term
+        placeholder=state.term
+        on-input('setTerm')/>
+    </div>
+  </div>
+</section>
+
+// Styles
+style.less {
+  @search-height: 0.5em;
+
+  .search-bar {
+    z-index: @z-app-header - 1;
+    position: sticky;
+    top: @header-height-sm;
+    width: 100%;
+    padding: @pad-xxs 0 0.01em;
+    background-color: @color-white;
+
+    @media (min-width: @mq-med) {
+      top: @header-height-lg - 0.15em;
+    }
+
+    &__main {
+      display: flex;
+      width: 100%;
+      border: 1px solid #ddd;
+      box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.075);
+      transition: border-color 1s ease, box-shadow 1s ease;
+
+      &:focus-within {
+        border-color: @color-alpha;
+        box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.1);
+      }
+    }
+
+    &__prefix {
+      padding: @search-height @search-height*2;
+      border-right: 1px solid #ddd;
+    }
+
+    &__icon {
+      position: relative;
+      margin: 0 auto;
+      align-self: center;
+      top: 4px;
+      font-size: @search-height*4;
+      font-style: normal;
+    }
+
+    &__input {
+      position: relative;
+      display: block;
+      border: 0;
+      width: 100%;
+      padding-left: 1em;
+      padding-top: @search-height;
+      padding-bottom: @search-height;
+      font-family: @font-sans;
+      font-size: 1.25em;
+
+      @media (min-width: @mq-med) {
+        min-width: 15em;
+      }
+    }
+  }
+}

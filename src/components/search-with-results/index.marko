@@ -1,0 +1,16 @@
+class {
+
+  onCreate(){
+    this.state = { term:"eBay"};
+  }
+
+  /**
+   * @param {string}
+   */
+  hasSearched(term){
+    this.state.term = term;
+  }
+}
+
+<search-bar on-search("hasSearched")/>
+<search-results term=state.term/>

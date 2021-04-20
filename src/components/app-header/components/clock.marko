@@ -1,0 +1,28 @@
+class {
+  onCreate() {
+    this.state = {
+      time: null
+    };
+  }
+  onMount() {
+    this.state.time = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+    this.ticktock();
+  }
+
+  ticktock() {
+    clearInterval(timer);
+    var timer = setInterval(() => {
+      this.state.time = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }, 1000);
+  }
+}
+
+<time class="app-header__time">${state.time}</time>
